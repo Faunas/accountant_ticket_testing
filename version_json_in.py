@@ -29,8 +29,7 @@ def start_gamemode_random(json_data):
 def start_gamemode_increase(json_data):
     counter_keys_in_json = len(json_data)
     player_score = 0
-    player_fails = 0
-    print(f"Всего будет {counter_keys_in_json} вопроса.\nОпрос будет проводиться от 01 до 99 счёта.")
+    print(f"Всего будет {counter_keys_in_json} вопроса.\nОпрос будет проводиться с 01 по 99 счёт.")
     for i in json_data:
         correct_answer = json_data[i]
         user_answer = input(f"Какой счёт относится к {i}?\nВаш ответ: ")
@@ -39,9 +38,27 @@ def start_gamemode_increase(json_data):
             player_score += 1
         else:
             print(f"Неверно. Правильный ответ: {correct_answer}")
-            player_fails += 1
     print(
         f"Игра окончена.\nПравильно отвеченные счета: {player_score}\nНеверно отвеченные счета: {len(json_data) - player_score}")
+
+
+def start_gamemode_decrease(json_data):
+    counter_keys_in_json = len(json_data)
+    player_score = 0
+    print(f"Всего будет {counter_keys_in_json} вопроса.\nОпрос будет проводиться с 99 по 01 счёта.")
+
+    while json_data:
+        current_key, correct_answer = json_data.popitem()
+        user_answer = input(f"Какой счёт относится к {current_key}?\nВаш ответ: ")
+
+        if user_answer == correct_answer:
+            print("Верно!")
+            player_score += 1
+        else:
+            print(f"Неверно. Правильный ответ: {correct_answer}")
+
+    print(
+        f"Игра окончена.\nПравильно отвеченные счета: {player_score}\nНеверно отвеченные счета: {counter_keys_in_json - player_score}")
 
 
 def main_menu():
@@ -116,19 +133,20 @@ def main_menu():
     print("\nТЕСТ НА ЗНАНИЕ БУХГАЛТЕРСКИХ СЧЕТОВ\n\nНеобходимо выбрать режим подготовки:\n"
           "[1] Вывести список всех счетов\n"
           "[2] Начать подготовку с рандомными счетами\n"
-          "[3] Начать подготовку с счетами по возрастанию\n")
-    try:
-        choose = int(input("Введите цифру для выбора соответствующего пункта: "))
-        if choose == 1:
-            all_numerations(json_data)
-        elif choose == 2:
-            start_gamemode_random(json_data)
-        elif choose == 3:
-            start_gamemode_increase(json_data)
-        else:
-            print("Введена неизвестная цифра! Повторяю информацию...")
-    except Exception:
-        print("\n---------ВЫ ВВЕЛИ НЕКОРРЕКТНЫЕ ДАННЫЕ!---------")
+          "[3] Начать подготовку с счетами по возрастанию\n"
+          "[4] Начать подготовку с счетами по убыванию\n")
+    choose = int(input("Введите цифру для выбора соответствующего пункта: "))
+    if choose == 1:
+        all_numerations(json_data)
+    elif choose == 2:
+        start_gamemode_random(json_data)
+    elif choose == 3:
+        start_gamemode_increase(json_data)
+    elif choose == 4:
+        start_gamemode_decrease(json_data)
+    else:
+        print("Введена неизвестная цифра! Повторяю информацию...")
+    print("\n---------ВЫ ВВЕЛИ НЕКОРРЕКТНЫЕ ДАННЫЕ!---------")
 
 
 if __name__ == "__main__":
