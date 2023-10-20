@@ -59,7 +59,8 @@ def check_for_updates():
 
 
 def download_latest_version():
-    url = "https://bans.chipolino.fun/buch_uchet/TEST_BUCH_UCHET_v1.exe"
+    last_version = str(give_latest_version())
+    url = f"https://bans.chipolino.fun/buch_uchet/TEST_BUCH_UCHET_v{last_version}.exe"
     webbrowser.open(url)
     time.sleep(2)
 
@@ -238,10 +239,10 @@ def main_menu():
 
 
 if __name__ == "__main__":
-    current_version = "1.2"
+    current_version = "1.0"
     check_for_updates()
     while True:
         main_menu()
 
 
-#   pyinstaller --noconfirm --onefile --console --name "TEST_BUCH_UCHET_v1.2"  "C:/Users/Max/PycharmProjects/accounting_sheet/version_json_in.py"
+#   pyinstaller --noconfirm --onefile --console --name "TEST_BUCH_UCHET_v$la"  "C:/Users/Max/PycharmProjects/accounting_sheet/version_json_in.py"
