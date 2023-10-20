@@ -1,6 +1,8 @@
 import json
 import random
+import time
 import urllib.request
+import webbrowser
 
 
 def get_elements_from_string(json_string):
@@ -22,20 +24,44 @@ def game_end(player_score, json_data, array_with_fail_answer):
     print("----------")
 
 
-def check_for_updates():
+def give_latest_version():
     remote_version_url = "https://raw.githubusercontent.com/Faunas/accountant_ticket_testing/master/version.txt"
-
     try:
         with urllib.request.urlopen(remote_version_url) as response:
             remote_version = response.read().decode("utf-8").strip()
+        return remote_version
+    except Exception as e:
+        print(f"Ошибка при проверке последней версии: {e}")
 
+
+def check_for_updates():
+    remote_version_url = "https://raw.githubusercontent.com/Faunas/accountant_ticket_testing/master/version.txt"
+    try:
+        with urllib.request.urlopen(remote_version_url) as response:
+            remote_version = response.read().decode("utf-8").strip()
             if remote_version != current_version:
-                print(f"Доступна новая версия {remote_version}. Вы можете скачать её по ссылке.")
+                print(f"Ваша версия: {current_version}.\n"
+                      f"Доступна новая версия {remote_version}.")
+
+                choose_update_answer = input("|-------------------------------------|\n"
+                                             "|Скачивать последнюю версию программы?| \n|           [Да]     [Нет]            |\n"
+                                             "|-------------------------------------|\n"
+                                             "\nВаш ответ: ").lower()
+                if choose_update_answer == "да" or choose_update_answer == "ад":
+                    download_latest_version()
+                else:
+                    pass
             else:
-                print("У вас установлена последняя версия.")
+                print("У вас установлена последняя версия программы.")
 
     except Exception as e:
         print(f"Ошибка при проверке обновлений: {e}")
+
+
+def download_latest_version():
+    url = "https://bans.chipolino.fun/buch_uchet/TEST_BUCH_UCHET_v1.exe"
+    webbrowser.open(url)
+    time.sleep(2)
 
 
 def start_gamemode_random(json_data):
@@ -212,7 +238,10 @@ def main_menu():
 
 
 if __name__ == "__main__":
-    current_version = "1.0"
+    current_version = "1.2"
+    check_for_updates()
     while True:
-        check_for_updates()
         main_menu()
+
+
+#   pyinstaller --noconfirm --onefile --console --name "TEST_BUCH_UCHET_v1.2"  "C:/Users/Max/PycharmProjects/accounting_sheet/version_json_in.py"
