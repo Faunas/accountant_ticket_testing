@@ -1,5 +1,6 @@
 import json
 import random
+import urllib.request
 
 
 def get_elements_from_string(json_string):
@@ -20,6 +21,23 @@ def game_end(player_score, json_data, array_with_fail_answer):
         print(i)
     print("----------")
 
+
+def check_for_updates():
+    remote_version_url = "https://raw.githubusercontent.com/Faunas/accountant_ticket_testing/master/version.txt"
+
+    try:
+        with urllib.request.urlopen(remote_version_url) as response:
+            remote_version = response.read().decode("utf-8").strip()
+
+            if remote_version != current_version:
+                print(f"Доступна новая версия {remote_version}. Вы можете скачать её по ссылке.")
+            else:
+                print("У вас установлена последняя версия.")
+
+    except Exception as e:
+        print(f"Ошибка при проверке обновлений: {e}")
+
+
 def start_gamemode_random(json_data):
     question_passed = 1
     player_score = 0
@@ -28,7 +46,6 @@ def start_gamemode_random(json_data):
     while json_data:
         random_key = random.choice(list(json_data.keys()))
         correct_answer = json_data[random_key]
-
 
         user_answer = input(f"Какой счёт относится к {random_key}?\nВаш ответ: ")
 
@@ -80,8 +97,6 @@ def start_gamemode_decrease(json_data):
 
 
 def main_menu():
-
-
     json_data_string = '''
     {
       "01": "Основные средства",
@@ -197,5 +212,7 @@ def main_menu():
 
 
 if __name__ == "__main__":
+    current_version = "1.0"
     while True:
+        check_for_updates()
         main_menu()
