@@ -239,10 +239,7 @@ def main_menu():
 
 
 if __name__ == "__main__":
-    current_version = "1.0"
+    current_version = "1.3"
     check_for_updates()
     while True:
         main_menu()
-
-
-#   pyinstaller --noconfirm --onefile --console --name "TEST_BUCH_UCHET_v$la"  "C:/Users/Max/PycharmProjects/accounting_sheet/version_json_in.py"
